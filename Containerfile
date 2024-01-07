@@ -10,7 +10,7 @@ COPY extra-packages /
 RUN apt-get update && \ 
       apt-get upgrade -y && \
       DEBIAN_FRONTEND=noninteractive apt-get -y install \
-      $(cat toolbox-packages | xargs) && \
+      $(cat /extra-packages | xargs) && \
       rm -rd /var/lib/apt/lists/*
 
 RUN rm /extra-packages
