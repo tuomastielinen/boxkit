@@ -2,7 +2,6 @@ age
 atuin
 btop
 bat
-chezmoi
 clipboard
 cosign
 dbus-x11
@@ -12,7 +11,6 @@ ffmpeg
 fzf
 github-cli
 helix
-just
 make
 micro
 ncdu
@@ -24,7 +22,6 @@ plocate
 python3
 ripgrep
 speedtest-cli
-starship
 vimdiff
 wl-clipboard
 zellij
