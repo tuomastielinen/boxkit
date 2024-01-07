@@ -1,4 +1,4 @@
-FROM quay.io/toolbx-images/ubuntu-toolbox:rolling
+FROM quay.io/toolbx-images/ubuntu-toolbox:22.04
 
 LABEL com.github.containers.toolbox="true" \
       usage="This image is meant to be used with the toolbox or distrobox command" \
@@ -6,9 +6,13 @@ LABEL com.github.containers.toolbox="true" \
       maintainer="Tuomas Tielinen"
 
 COPY extra-packages /
-RUN apt update && \
-      apt upgrade -y && \
-      grep -v '^#' /extra-packages | xargs apt install -y
+
+RUN apt-get update && \ 
+      apt-get upgrade -y && \
+      DEBIAN_FRONTEND=noninteractive apt-get -y install \
+      $(cat toolbox-packages | xargs) && \
+      rm -rd /var/lib/apt/lists/*
+
 RUN rm /extra-packages
 
 RUN git clone https://mpr.makedeb.org/just && \
@@ -19,10 +23,7 @@ RUN curl -sS https://starship.rs/install.sh | sh
 
 RUN sh -c "$(curl -fsLS get.chezmoi.io)"
 
-RUN   ln -fs /bin/sh /usr/bin/sh && \
-      ln -fs /usr/bin/distrobox-host-exec /usr/local/bin/docker && \
+RUN   ln -fs /usr/bin/distrobox-host-exec /usr/local/bin/docker && \
       ln -fs /usr/bin/distrobox-host-exec /usr/local/bin/flatpak && \ 
       ln -fs /usr/bin/distrobox-host-exec /usr/local/bin/podman && \
-      ln -fs /usr/bin/distrobox-host-exec /usr/local/bin/rpm-ostree && \
-      ln -fs /usr/bin/distrobox-host-exec /usr/local/bin/transactional-update
-
+      ln -fs /usr/bin/distrobox-host-exec /usr/local/bin/rpm-ostree
